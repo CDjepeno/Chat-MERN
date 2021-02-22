@@ -1,26 +1,23 @@
 import React from 'react'
-import { MessageType } from '../App';
 
 interface MessageProps {
-    messages: any
+    message: {
+        message: string
+    };
+    pseudo: {
+        pseudo: string
+    }
 }
  
-const Message: React.FC<MessageProps> = ({messages}) => {
-    // console.log(messages);
-    // if(messages) {
-    //     messages.map((m:any) => {
-    //         console.log(m);
-    //     })
-    // }
+const Message: React.FC<MessageProps> = ({message, pseudo}) => {
+    const msg = message.message
+    const pseu = pseudo.pseudo
+    console.log(message.message);
     
     return (<>
-        {/* {messages.map((m: any) => { */}
             <p className='user-message'>
-                {/* {m.pseudo} */}
+              {pseu}:  {msg}
             </p>
-        {/* })} */}
-        
-        
     </>);
 }
  
