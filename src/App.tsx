@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import './App.css';
+import './animations.css'
 import Form from './pages/Form';
 import Message from './component/Message';
 import FirebaseService from './services/FirebaseAPI';
+import {CSSTransition, TransitionGroup} from 'react-transition-group'
 
 
 type Params = {
@@ -68,12 +70,24 @@ const App: React.FC<RouteComponentProps<Params>> = ({match}) => {
 		createMessage(message);
 	}
 
+	const isUser = (pseudo: string) => {
+		return pseudo === match.params.pseudo		
+	}
+
 	if(messages){
 		Messages  = Object.keys(messages).map(key => {
 			return (
-				<div className="message">
-					<Message key={key} message={messages[key]} pseudo={messages[key]} />
-				</div>
+				<CSSTransition 
+					key={key}
+					timeout={200} 
+					classNames='fade'
+				>
+					<Message 
+						isUser={isUser} 
+						message={messages[key]} 
+						pseudo={messages[key]} 
+					/>
+				</CSSTransition>
 			)
 		})
 	}
@@ -86,16 +100,14 @@ const App: React.FC<RouteComponentProps<Params>> = ({match}) => {
 
 	},[message])
 	
-	
-
 	return (
 		<div className="box">
 		<div>
 			<div className="messages" ref={elementPosition}>
 			{Messages  && 
-			<>
+			<TransitionGroup className="message">
 				{Messages}
-			</>
+			</TransitionGroup>
 			}
 			</div>
 		</div>

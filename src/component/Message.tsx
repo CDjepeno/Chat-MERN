@@ -2,23 +2,30 @@ import React from 'react'
 
 interface MessageProps {
     message: {
-        message: string
+        message: string 
     };
     pseudo: {
         pseudo: string
     }
+    isUser: any;
 }
  
-const Message: React.FC<MessageProps> = ({message, pseudo}) => {
+const Message: React.FC<MessageProps> = ({message, pseudo, isUser}) => {
 
     const msg = message.message
     const pseud = pseudo.pseudo    
-    
-    return (<>
-        <p className='user-message'>
-        {pseud}:  {msg}
-        </p>
-    </>);
+
+        return (<>
+            {isUser(pseud) ?
+                <p className='user-message'>
+                    <strong>{pseud} :</strong>  {msg}
+                </p>
+            :
+                <p className='not-user-message'>
+                    <strong>{pseud} :</strong>  {msg}
+                </p>
+            }
+        </>)
 }
  
 export default Message;
