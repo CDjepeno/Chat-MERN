@@ -11,7 +11,7 @@ export default class FirebaseService {
         .catch(error => this.handleError(error));
     }
 
-    static addMessage(message: object): Promise<object> {
+    static postMessage(message: object): Promise<object> {
         return axios
         .post(API_MESSAGES, {
         ...message,

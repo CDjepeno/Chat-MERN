@@ -10,14 +10,14 @@ interface MessageProps {
 }
  
 const Message: React.FC<MessageProps> = ({message, pseudo}) => {
+
     const msg = message.message
-    const pseu = pseudo.pseudo
-    console.log(message.message);
+    const pseud = pseudo.pseudo    
     
     return (<>
-            <p className='user-message'>
-              {pseu}:  {msg}
-            </p>
+        <p className='user-message'>
+        {pseud}:  {msg}
+        </p>
     </>);
 }
  

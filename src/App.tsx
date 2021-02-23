@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import './App.css';
-import Form from './component/Form';
+import Form from './pages/Form';
 import Message from './component/Message';
-// firebase
-import base from './firebase'
 import FirebaseService from './services/FirebaseAPI';
-import firebase from 'firebase/app';
+
 
 type Params = {
   pseudo: string;
@@ -21,88 +19,94 @@ export interface MessageType {
 
 
 const App: React.FC<RouteComponentProps<Params>> = ({match}) => {
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([])
-  const [length, setLength] = useState(140)
-  const Messages  = Object.keys(messages)
+	const [message, setMessage] = useState("");
+	const [messages, setMessages] = useState<any>([])
+	const [length, setLength] = useState(140);
+	let Messages;
 
-  const createMessage = () => {
-    const pseudo = match.params.pseudo;
-    const createM = {
-      message: message,
-      pseudo: pseudo
-    }
+	const elementPosition = useRef<HTMLInputElement>(null);
+	
+	const addMessage = (Message: any) => {
+		const msg: any = {...messages};
 
-    FirebaseService.addMessage(createM)
-    addMessage(createM)  
-    setMessage(" ")
-    setLength(140)
-  }
+		msg[`message-${Date.now()}`] = Message
+
+		setMessages(msg)
+	}
+
+	const handleChange = (e: any) => {
+		const {value} = e.target; 
+		const lengthR = 140 - value.length
+		setLength(lengthR)
+		setMessage(value)
+	}
   
-  const addMessage = (Message: any) => {
-    const msg: any = {...messages};
+	const FetchMessages = async() => {
+		const data: any = await FirebaseService.getMessages();
+		setMessages(data)
+	}
 
-    msg[`message-${Date.now()}`] = Message
+	useEffect(() => {
+		FetchMessages();
+	},[])
 
-    setMessages(msg)
-  }
+	const createMessage = (message: string) => {
+		const pseudo = match.params.pseudo;
+		const createM = {
+		message: message,
+		pseudo: pseudo
+		}
 
-  const handleChange = (e: any) => {
-    const {value} = e.target; 
-    const lengthR = 140 - value.length
-    setLength(lengthR)
-    setMessage(value)
-  }
+		addMessage(createM)  
+		FirebaseService.postMessage(createM)
+		setMessage(" ")
+		setLength(140)
+	}
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
+	const handleSubmit = (e: any) => {
+		e.preventDefault();
+		createMessage(message);
+	}
 
-    setMessage(message);
-    createMessage();
-  }
-  
-  
-  const FetchMessages = async() => {
-    const data: any = await FirebaseService.getMessages();
-    
-    setMessages(data)
-    
-  }
-  
-  useEffect(() => {
-    FetchMessages();
-    createMessage();
-  },[])
-  
- 
+	if(messages){
+		Messages  = Object.keys(messages).map(key => {
+			return (
+				<div className="message">
+					<Message key={key} message={messages[key]} pseudo={messages[key]} />
+				</div>
+			)
+		})
+	}
 
-  return (
-    <div className="box">
-      <div>
-        <div className="messages">
-          {messages  && 
-          <>
-           {Messages.map((key: any) => {    
-              return(
-                <div className="message">
-                  <Message key={key} message={messages[key]} pseudo={messages[key]} />
-                </div>
-              )
-            })
-          } 
-          </> 
-          }
-        </div>
-      </div>
-      <Form 
-        handleSubmit={handleSubmit} 
-        handleChange={handleChange}
-        message={message} 
-        length={length}
-      />
-      <h2>Bonjour {match.params.pseudo}</h2>
-    </div>
-  );
+	useEffect(() => {
+		const ref = elementPosition.current;
+		
+		if(ref)
+		ref.scrollTop = ref.scrollHeight;
+
+	},[message])
+	
+	
+
+	return (
+		<div className="box">
+		<div>
+			<div className="messages" ref={elementPosition}>
+			{Messages  && 
+			<>
+				{Messages}
+			</>
+			}
+			</div>
+		</div>
+		<Form 
+			handleSubmit={handleSubmit} 
+			handleChange={handleChange}
+			message={message} 
+			length={length}
+		/>
+		</div>
+	);
 }
 
 export default App;
