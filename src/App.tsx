@@ -100,25 +100,25 @@ const App: React.FC<RouteComponentProps<Params>> = ({match}) => {
 
 	},[message])
 	
-	return (
+	return (<>
 		<div className="box">
-		<div>
-			<div className="messages" ref={elementPosition}>
-			{Messages  && 
-			<TransitionGroup className="message">
-				{Messages}
-			</TransitionGroup>
-			}
+			<div>
+				<div className="messages" ref={elementPosition}>
+				{Messages  && 
+				<TransitionGroup className="message">
+					{Messages}
+				</TransitionGroup>
+				}
+				</div>
 			</div>
+			<Form 
+				handleSubmit={handleSubmit} 
+				handleChange={handleChange}
+				message={message} 
+				length={length}
+			/>
 		</div>
-		<Form 
-			handleSubmit={handleSubmit} 
-			handleChange={handleChange}
-			message={message} 
-			length={length}
-		/>
-		</div>
-	);
+	</>);
 }
 
 export default App;
