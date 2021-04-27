@@ -1,7 +1,7 @@
 import React from 'react'
 
 interface FormProps {
-    message: any; 
+    message: string; 
     handleSubmit: any;
     handleChange: any
     length: number;

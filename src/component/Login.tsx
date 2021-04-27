@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { RouteComponentProps, useHistory } from 'react-router-dom';
-
+import { RouteComponentProps } from 'react-router-dom';
 
  
 const Login: React.FC<RouteComponentProps> = (props) => {

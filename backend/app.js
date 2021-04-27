@@ -1,31 +1,34 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import WebSocket from 'ws'
+const dotenv = require('dotenv')
+const express = require('express')
+const app = express()
+const http = require('http').createServer(app)
+const io = require('socket.io')(http, {cors: {origin:'*', methods: ["GET", "POST"]}})
+const PORT = process.env.PORT || 8000
 dotenv.config()
 
-
-const app = express()
 
 app
 .use(express.json())
 
-export const PORT = process.env.PORT || 8000
 
-const wss = new WebSocket.Server({ port: 8002 })
+io.on('connection', ws => {
+    // console.log('A new client connected');
+    ws.on('pseudo', (pseudo) => {
+      console.log(`${pseudo} is connected`);
+    });
 
-wss.on('connection', function connection(ws) {
-    console.log('A new client connected');
-    ws.send('Welcome new client');
-
-    ws.on('message', function incoming(message) {
-      console.log('received: %s', message);
-      ws.emit('Got ur msg its: ' + message);
+    ws.on('message', ({pseudo, message}) => {
+      console.log('received:', message, pseudo);
+      io.emit('message', {pseudo, message});
     });
     
+    ws.on('disconnect', () => {
+      console.log('a user is disconnected');
+    })
 });
 
 
-app.listen(PORT, () => {
+http.listen(PORT, () => {
     console.log(`Listening at port ${PORT}`)
 })
 
