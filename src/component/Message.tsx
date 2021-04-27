@@ -13,7 +13,8 @@ interface MessageProps {
 const Message: React.FC<MessageProps> = ({message, pseudo, isUser}) => {
 
     const msg = message.message
-    const pseud = pseudo.pseudo        
+    const pseud = pseudo.pseudo    
+    
 
         return (<>
             {isUser(pseud) ?

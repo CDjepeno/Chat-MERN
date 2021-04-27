@@ -1,1 +1,0 @@
-export const API_MESSAGES = "https://chat-box-76ac3-default-rtdb.europe-west1.firebasedatabase.app/messages.json"

@@ -1,10 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './App.css';
+import './pages/App.css';
 import Login from './component/Login';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import NotFound from './component/NotFound';
-import Chat from './Chat';
+import Chat from './pages/Chat';
 
 export const App: React.FC = () => {
     return(
@@ -17,11 +16,4 @@ export const App: React.FC = () => {
     </HashRouter>
     )
 }
-
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
 

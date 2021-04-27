@@ -12,14 +12,13 @@ app
 
 
 io.on('connection', ws => {
-    // console.log('A new client connected');
     ws.on('pseudo', (pseudo) => {
       console.log(`${pseudo} is connected`);
     });
 
     ws.on('message', ({pseudo, message}) => {
       console.log('received:', message, pseudo);
-      io.emit('message', {pseudo, message});
+      io.emit('message', {message, pseudo});
     });
     
     ws.on('disconnect', () => {
