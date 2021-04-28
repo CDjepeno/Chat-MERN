@@ -14,7 +14,7 @@ Chat-Socket.io
   <img src="https://img.shields.io/badge/React-V%2017.0.2-green" alt="react version">
 </p>
 
-[chat.pdf](https://github.com/CDjepeno/Hotel-MERN/files/6388313/chat.pdf)
+![chat](https://user-images.githubusercontent.com/43074465/116333699-35a76400-a7d4-11eb-8737-003ae3b476af.png)
 
 ![socketIO](https://user-images.githubusercontent.com/43074465/116327813-e0655580-a7c7-11eb-86a1-d7981e410613.jpg)
 ![nodeJS](https://user-images.githubusercontent.com/43074465/116327845-ebb88100-a7c7-11eb-93d9-98fa0039e24b.png)
